@@ -5,4 +5,4 @@
 ## All
 |      | #    | 名称    | 题目     | 答题          | 题解         | 难度 |
 | ---- | ---- | ------- | ---- | ---- | ---- | ---- |
-| √ | 202002221600 | [circle-count](../../problems/circle-count) | [围圈报数](../../problems/circle-count/README.md) | [cpp](../../problems/circle-count/SOLUTION.cpp) |   | 简单 | 
+| √ | 202002221700 | [extract-non-repeating-integers](../../problems/extract-non-repeating-integers) | [提取不重复的整数 ](../../problems/extract-non-repeating-integers/README.md) | [cpp](../../problems/extract-non-repeating-integers/SOLUTION.cpp) |   | 简单 | 
