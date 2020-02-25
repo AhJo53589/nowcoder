@@ -1,10 +1,12 @@
 # Update
 [返回](./README.md)
 
+---
 ## 20200224
 
 * 202002241800.jiugongge-input-method 九宫格输入法
 
+---
 ## 20200222
 
 * 202002221600.circle-count 围圈报数
