@@ -63,10 +63,10 @@
 <li><a href="javascript:void(0);" class="oprt-item oprt-error click-correction">纠错</a></li>
 </ul>
 
-
 ---
 ### 思路
 ```
+
 ```
 
 
@@ -109,6 +109,22 @@ vector<int> game(int n, int k = 3)
 }
 ```
 
+### 其它
 
+```C++
+// 递归
+int josephus(int n,int m){
+ if(n==1)
+  return 0;
+ else 
+  return (josephus(n-1,m)+m)%n;
+}
+ printf("%d",ans+1);
 
+// 迭代
+ for(i=1;i<=n;i++){
+  ans=(ans+m)%i;
+ }
+ printf("%d",ans+1);
+```
 
