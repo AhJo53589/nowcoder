@@ -1,3 +1,9 @@
+"AB__BB__BBAB__BB__AB"
+"AB__BB__AB"
+10
 "HERE IS A SIMPLE EXAMPLE"
 "EXAMPLE"
-true
+17
+"_________"
+"BABCDAB"
+-1
