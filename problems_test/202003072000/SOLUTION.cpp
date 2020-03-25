@@ -125,13 +125,9 @@ public:
         for (int i = 0; i < bmGs.size(); i++) cout << setw(3) << bmGs[i] << " "; cout << endl;
     }
 
-    int getBmBc(char c, map<char, int>& bmBc, int m)
+    int getBmBc(char c, unordered_map<char, int>& bmBc)
     {
-        if (bmBc.count(c) == 0)
-        {
-            return m;
-        }
-        return bmBc[c];
+        return (bmBc.count(c) == 0) ? -1 : bmBc[c];
     }
 
     void preBmBc(string needle, unordered_map<char, int>& bmBc)
@@ -153,28 +149,21 @@ public:
         preBmGs(needle, bmGs);
         preBmBc(needle, bmBc);
 
-        //int i = 0; // 表示主串与模式串对齐的第一个字符
-        //while (i <= haystack.size() - needle.size())
-        //{
-        //    int j;
-        //    for (j = needle.size() - 1; j >= 0; j--)
-        //    {
-        //        if (haystack[i + j] != needle[j]) break;
-        //    }
-        //    if (j < 0) return i;
+        int i = 0; // 表示主串与模式串对齐的第一个字符
+        while (i <= haystack.size() - needle.size())
+        {
+            int j;
+            for (j = needle.size() - 1; j >= 0; j--)
+            {
+                if (haystack[i + j] != needle[j]) break;
+            }
+            if (j < 0) return i;
 
-        //    // 这里 x 等同于将模式串往后滑动 j - bc[(int)a[i+j]]位
-        //    // bc[(int)a[i+j]] 表示主串中坏字符在模式串中出现的位置 xi
-        //    int x = i + (j - bmBc[haystack[i + j]);
+            int x = j - getBmBc(haystack[i + j], bmBc);
+            int y = bmGs[j];
 
-        //    int y = 0;
-        //    if (j < m - 1) 
-        //    {
-        //        y = moveByGS(j, m, suffix, prefix);
-        //    }
-
-        //    i += max(x, y);
-        //}
+            i += max(x, y);
+        }
         return -1;
     }
 };
