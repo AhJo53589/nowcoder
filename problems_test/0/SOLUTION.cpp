@@ -89,13 +89,13 @@ string _solution_custom(TestCases& tc)
     FILE* ssin;
     freopen_s(&ssin, "C:\\AhJo53589\\nowcoder\\problems_test\\0\\1.in", "r", stdin);
 
-    FILE* ssans;
-    freopen_s(&ssans, "C:\\AhJo53589\\nowcoder\\problems_test\\0\\1.ans", "w", stdout);
+    FILE* ssout;
+    freopen_s(&ssout, "C:\\AhJo53589\\nowcoder\\problems_test\\0\\1.out", "w", stdout);
 
     Solution sln;
     sln.main();
 
-    freopen_s(&ssans, "CON", "w", stdout);
+    freopen_s(&ssout, "CON", "w", stdout);
 
     //FILE* ssout;
     //freopen_s(&ssout, "C:\\AhJo53589\\nowcoder\\problems_test\\0\\1.out", "r", stdin);
