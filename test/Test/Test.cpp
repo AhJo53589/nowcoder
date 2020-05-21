@@ -2,6 +2,7 @@
 //
 
 #include "pch.h"
+#include <io.h>
 #include <iostream>
 #include <iomanip>
 #include <sstream>
@@ -53,7 +54,7 @@ using namespace std;
 #else
 
 // 2. 或者选择使用 #指定路径的题目代码#
-#define SOLUTION_CPP_FULL_PATH			"../../problems_test/202005200002/SOLUTION.cpp"
+#define SOLUTION_CPP_FULL_PATH			"../../problems_test/202005200001/SOLUTION.cpp"
 
 #endif
 

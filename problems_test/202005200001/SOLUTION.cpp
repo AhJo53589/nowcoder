@@ -35,8 +35,12 @@ public:
         return c >= '0' && c <= '9';
     }
 
+    bool isStartNum(char c) {
+        return c >= '1' && c <= '9';
+    }
+
     bool checkStart(char c) {
-        return (isNum(c) || isPlus(c));
+        return (isStartNum(c) || isPlus(c));
     }
 
     string getLonggestNum(string& str) {
@@ -44,14 +48,12 @@ public:
         int start = 0;
 
         for (int i = 0; i < (int)str.size(); i++) {
-
             if (!checkStart(str[i])) continue;
 
             bool dotFlag = false;
             int j = i + 1;
             for (; j < (int)str.size(); j++) {
                 if (isNum(str[j])) continue;
-                if (isPlus(str[j])) break;
                 if (isDot(str[j])) {
                     if (dotFlag) break;
                     dotFlag = true;
@@ -60,7 +62,16 @@ public:
                 break;
             }
 
-            if (len <= j - i) {
+            int newLen = j - i;
+            if (newLen == 1 && isPlus(str[i])) continue;
+            if (dotFlag && isDot(str[j - 1]))
+            {
+                i = j;
+                continue;
+            }
+
+            if (len <= newLen) {
+
                 start = i;
                 len = j - i;
             }
@@ -92,25 +103,68 @@ public:
 //    return sln.run(s1);
 //}
 
+std::vector<std::string> findFiles(std::string dir) {
+    std::vector<std::string> files;
+
+    _finddata_t fileDir;
+    intptr_t lfDir = 0;
+    if ((lfDir = _findfirst(dir.c_str(), &fileDir)) == -1l) return {};
+    do {
+        files.push_back(fileDir.name);
+    } while (_findnext(lfDir, &fileDir) == 0);
+    _findclose(lfDir);
+
+    return files;
+}
+
 #define USE_SOLUTION_CUSTOM
 string _solution_custom(TestCases& tc)
 {
-    FILE* ssin;
-    freopen_s(&ssin, "C:\\AhJo53589\\nowcoder\\problems_test\\202005200001\\1.in", "r", stdin);
+    string dir = "C:\\AhJo53589\\nowcoder\\problems_test\\202005200001\\testcase\\";
+    string extension = "*.in";
+    vector<string> files_in = findFiles(dir + extension);
 
-    FILE* ssout;
-    freopen_s(&ssout, "C:\\AhJo53589\\nowcoder\\problems_test\\202005200001\\1.out", "w", stdout);
+    streambuf* backupcin = cin.rdbuf();
+    streambuf* backupcout = cout.rdbuf();
+    ifstream fin;
+    ofstream fout;
+    for (auto f : files_in) {
+        cout << f << endl;
 
-    Solution sln;
-    sln.main();
+        string strin = dir + f;
+        fin.open(strin.c_str());
+        //FILE* ssin;
+        //freopen_s(&ssin, strin.c_str(), "r", stdin);
 
-    freopen_s(&ssout, "CON", "w", stdout);
+        f = f.replace(f.find(".in"), 3, ".out");
+        cout << f << endl;
 
-    //FILE* ssout;
-    //freopen_s(&ssout, "C:\\AhJo53589\\nowcoder\\problems_test\\0\\1.out", "r", stdin);
-    //char c;
-    //while ((c = getchar()) != EOF && c != '\n') putchar(c);
-    //cout << endl;
+        string strout = dir + f;
+        fout.open(strout.c_str());
+        //FILE* ssout;
+        //freopen_s(&ssout, strout.c_str(), "w", stdout);
+
+        cin.rdbuf(fin.rdbuf());
+        cout.rdbuf(fout.rdbuf());
+        Solution sln;
+        sln.main();
+
+        cin.rdbuf(backupcin);
+        cout.rdbuf(backupcout);
+        fin.close();
+        fout.close();
+        //freopen_s(&ssout, "CON", "w", stdout);
+
+        //f = f.replace(f.find(".out"), 4, ".ans");
+        //cout << f << endl;
+
+        //string strans = dir + f;
+        //FILE* ssans;
+        //freopen_s(&ssans, strans.c_str(), "r", stdin);
+        //char c;
+        //while ((c = getchar()) != EOF && c != '\n') putchar(c);
+        //cout << endl;
+    }
 
     return {};
 }
