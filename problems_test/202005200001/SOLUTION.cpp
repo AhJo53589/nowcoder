@@ -129,17 +129,25 @@ string _solution_custom(TestCases& tc)
     ifstream fin;
     ofstream fout;
     for (auto f : files_in) {
-        cout << f << endl;
-
         string strin = dir + f;
-        fin.open(strin.c_str());
-        //FILE* ssin;
-        //freopen_s(&ssin, strin.c_str(), "r", stdin);
-
         f = f.replace(f.find(".in"), 3, ".out");
-        cout << f << endl;
-
         string strout = dir + f;
+
+
+        vector<string> strOut;
+        fin.open(strout.c_str());
+        string temp;
+        while (getline(fin, temp)) {
+            strOut.push_back(temp);
+        }
+        fin.close();
+
+
+
+
+        fin.open(strin.c_str());
+
+
         fout.open(strout.c_str());
         //FILE* ssout;
         //freopen_s(&ssout, strout.c_str(), "w", stdout);
