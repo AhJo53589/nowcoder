@@ -117,61 +117,94 @@ std::vector<std::string> findFiles(std::string dir) {
     return files;
 }
 
+vector<string> _getFileString(string file) {
+    ifstream fs(file.c_str());
+    string temp;
+    vector<string> str;
+    while (getline(fs, temp)) {
+        str.push_back(temp);
+    }
+    fs.close();
+
+    return str;
+}
+
+bool _checkAnswer(string dir_in, string dir_out, string dir_answer) {
+    vector<string> strIn = _getFileString(dir_in);
+    vector<string> strOut = _getFileString(dir_out);
+    vector<string> strAnswer = _getFileString(dir_answer);
+
+    int posStart = dir_answer.find_last_of("\\") + 1;
+    int posEnd = dir_answer.find(".");
+    string strNo = dir_answer.substr(posStart, posEnd - posStart);
+
+    cout << "////////////////////////////////////////////////////////////" << " ## " << strNo << endl;
+    cout << endl << "-- INPUT --" << endl;
+    printVectorT(strIn, 1, ' ');
+    cout << endl << "-- OUTPUT --" << endl;
+    printVectorT(strOut, 1, ' ');
+    cout << endl << "-- ANSWER --" << endl;
+    printVectorT(strAnswer, 1, ' ');
+
+    if (strOut != strAnswer) {
+        cout << "\t\t\t\t\t\t\t\t\t\t\033[7m\033[1m## WRONG ANSWER ##\033[0m" << endl;
+    }
+    else {
+        cout << endl;
+    }
+    cout << endl;
+
+    return (strOut == strAnswer);
+}
+
 #define USE_SOLUTION_CUSTOM
 string _solution_custom(TestCases& tc)
 {
+    string dir_out = "solution.out";
+
+
     string dir = "C:\\AhJo53589\\nowcoder\\problems_test\\202005200001\\testcase\\";
     string extension = "*.in";
     vector<string> files_in = findFiles(dir + extension);
 
     streambuf* backupcin = cin.rdbuf();
     streambuf* backupcout = cout.rdbuf();
+
+    ifstream fanswer;
     ifstream fin;
     ofstream fout;
+
     for (auto f : files_in) {
-        string strin = dir + f;
-        f = f.replace(f.find(".in"), 3, ".out");
-        string strout = dir + f;
+        string dir_in = dir + f;
+        f = f.replace(f.find(".in"), 3, ".answer");
+        string dir_answer = dir + f;
 
 
-        vector<string> strOut;
-        fin.open(strout.c_str());
+        vector<string> strAnswer;
+        fanswer.open(dir_answer.c_str());
         string temp;
-        while (getline(fin, temp)) {
-            strOut.push_back(temp);
+        while (getline(fanswer, temp)) {
+            strAnswer.push_back(temp);
         }
-        fin.close();
+        fanswer.close();
 
 
 
-
-        fin.open(strin.c_str());
-
-
-        fout.open(strout.c_str());
-        //FILE* ssout;
-        //freopen_s(&ssout, strout.c_str(), "w", stdout);
-
+        fin.open(dir_in.c_str());
+        fout.open(dir_out.c_str());
         cin.rdbuf(fin.rdbuf());
         cout.rdbuf(fout.rdbuf());
+
         Solution sln;
         sln.main();
 
         cin.rdbuf(backupcin);
         cout.rdbuf(backupcout);
+
         fin.close();
         fout.close();
-        //freopen_s(&ssout, "CON", "w", stdout);
 
-        //f = f.replace(f.find(".out"), 4, ".ans");
-        //cout << f << endl;
-
-        //string strans = dir + f;
-        //FILE* ssans;
-        //freopen_s(&ssans, strans.c_str(), "r", stdin);
-        //char c;
-        //while ((c = getchar()) != EOF && c != '\n') putchar(c);
-        //cout << endl;
+        _checkAnswer(dir_in, dir_out, dir_answer);
     }
 
     return {};
