@@ -53,7 +53,7 @@ public:
             if (isNum(str[j])) continue;
             if (isDot(str[j])) {
                 if (dotPos != -1) break;  // second dot
-                if (!isNum(str[j - 1]) break;  // not num before dot
+                if (!isNum(str[j - 1])) break;  // not num before dot
                 dotPos = j;
                 continue;
             }
@@ -67,13 +67,17 @@ public:
         if (isDot(str[j - 1]))
         {
             nextPos = j;
-            return false;  // dot at last
+            j--;
+            return true;  // dot at last
         }      
                     
-        if (dotPos != -1 && isDot(str[j]) { 
+        if (dotPos != -1 && isDot(str[j])) { 
             nextPos = dotPos + 1;
             return true;  // multi dot
         }
+
+        nextPos = j;
+        return true;
     }
 
     string getLonggestNum(string& str) {
@@ -82,6 +86,7 @@ public:
         
         int nextPos = 0;
         for (int i = 0; i < (int)str.size(); i = nextPos) {
+            int j = 0;
             if (!checkValidNum(str, i, j, nextPos)) continue;
             
             int newLen = j - i;
