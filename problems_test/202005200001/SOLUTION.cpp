@@ -1,20 +1,20 @@
 /*
-»ªÎªÉç»áÕÐÆ¸ - Èí¼þÀà¿ª·¢Àà»ú¿¼Ìâ
+åŽä¸ºç¤¾ä¼šæ‹›è˜ - è½¯ä»¶ç±»å¼€å‘ç±»æœºè€ƒé¢˜
 
 
-ÊäÈëÒ»¸ö×Ö·û´®
-°üº¬¸÷ÖÖ×Ö·ûÉõÖÁ¿ÉÄÜ°üº¬¿Õ¸ñ£¬ÐèÒª¶ÁÈ¡Ò»ÕûÐÐ
+è¾“å…¥ä¸€ä¸ªå­—ç¬¦ä¸²
+åŒ…å«å„ç§å­—ç¬¦ç”šè‡³å¯èƒ½åŒ…å«ç©ºæ ¼ï¼Œéœ€è¦è¯»å–ä¸€æ•´è¡Œ
 
-·µ»Ø×î³¤µÄºÏ·¨Êý×Ö×Ö·û´®£¬Èç¹û³¤¶ÈÏàÍ¬¾Í·µ»ØºóÃæµÄ
+è¿”å›žæœ€é•¿çš„åˆæ³•æ•°å­—å­—ç¬¦ä¸²ï¼Œå¦‚æžœé•¿åº¦ç›¸åŒå°±è¿”å›žåŽé¢çš„
 
-ºÏ·¨Êý×Ö°üÖ»ÄÜ°üº¬ . + - ºÍ 0-9 £¬²¢ÇÒ . ×óÓÒ±ØÐëÓÐÊý×Ö£¬ +- ±ØÐëÔÚ×î¿ªÊ¼
+åˆæ³•æ•°å­—åŒ…åªèƒ½åŒ…å« . + - å’Œ 0-9 ï¼Œå¹¶ä¸” . å·¦å³å¿…é¡»æœ‰æ•°å­—ï¼Œ +- å¿…é¡»åœ¨æœ€å¼€å§‹
 
 
-Àý×Ó£º
-ÊäÈë£º
+ä¾‹å­ï¼š
+è¾“å…¥ï¼š
 123+1.23
 
-Êä³ö£º
+è¾“å‡ºï¼š
 +1.23
 
 */
@@ -39,44 +39,59 @@ public:
         return c >= '1' && c <= '9';
     }
 
-    bool checkStart(char c) {
+    bool isStartChar(char c) {
         return (isStartNum(c) || isPlus(c));
+    }
+    
+    bool checkValidNum(string& str, int i, int& j, int& nextPos) {
+        nextPos = i + 1;
+        if (!isStartChar(str[i])) return false;
+           
+        int dotPos = -1;
+        j = i + 1;
+        for (; j < (int)str.size(); j++) {
+            if (isNum(str[j])) continue;
+            if (isDot(str[j])) {
+                if (dotPos != -1) break;
+                if (!isNum(str[j - 1]) break;
+                dotPos = j;
+                continue;
+            }
+            break;
+        }
+
+        // plus only
+        if (isPlus(str[j - 1])) {
+            return false;
+        }
+        
+        // dot at last
+        if (isDot(str[j - 1]))
+        {
+            nextPos = j;
+            return false;
+        }      
+                    
+        // multi dot
+        if (dotPos != -1 && isDot(str[j]) { 
+            nextPos = dotPos + 1;
+            return true;
+        }
     }
 
     string getLonggestNum(string& str) {
         int len = 0;
         int start = 0;
-
-        for (int i = 0; i < (int)str.size(); i++) {
-            if (!checkStart(str[i])) continue;
-
-            bool dotFlag = false;
-            int j = i + 1;
-            for (; j < (int)str.size(); j++) {
-                if (isNum(str[j])) continue;
-                if (isDot(str[j])) {
-                    if (dotFlag) break;
-                    dotFlag = true;
-                    continue;
-                }
-                break;
-            }
-
+        
+        int nextPos = 0;
+        for (int i = 0; i < (int)str.size(); i = nextPos) {
+            if (!checkValidNum(str, i, j, nextPos)) continue;
+            
             int newLen = j - i;
-            if (newLen == 1 && isPlus(str[i])) continue;
-            if (dotFlag && isDot(str[j - 1]))
-            {
-                i = j;
-                continue;
-            }
-
             if (len <= newLen) {
-
                 start = i;
-                len = j - i;
+                len = newLen;
             }
-
-            i = j - 1;
         }
 
         return str.substr(start, len);
