@@ -52,30 +52,27 @@ public:
         for (; j < (int)str.size(); j++) {
             if (isNum(str[j])) continue;
             if (isDot(str[j])) {
-                if (dotPos != -1) break;
-                if (!isNum(str[j - 1]) break;
+                if (dotPos != -1) break;  // second dot
+                if (!isNum(str[j - 1]) break;  // not num before dot
                 dotPos = j;
                 continue;
             }
             break;
         }
 
-        // plus only
         if (isPlus(str[j - 1])) {
-            return false;
+            return false;  // plus only
         }
         
-        // dot at last
         if (isDot(str[j - 1]))
         {
             nextPos = j;
-            return false;
+            return false;  // dot at last
         }      
                     
-        // multi dot
         if (dotPos != -1 && isDot(str[j]) { 
             nextPos = dotPos + 1;
-            return true;
+            return true;  // multi dot
         }
     }
 
